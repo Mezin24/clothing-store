@@ -1,4 +1,5 @@
-import { CategoriesList } from './components/categories/CategoriesList/CategoriesList';
+import {CategoriesList} from 'components/categories/CategoriesList/CategoriesList'
+import { Outlet } from 'react-router';
 
 const categories = [
   {
@@ -27,8 +28,12 @@ const categories = [
     imageUrl: 'https://i.ibb.co/R70vBrQ/men.png',
   },
 ];
-const App = () => {
-  return <CategoriesList categories={categories} />;
-};
 
-export default App;
+export const HomePage = () => {
+  return (
+    <>
+    <CategoriesList categories={categories} />
+    {<Outlet/>}
+    </>
+  )
+}
