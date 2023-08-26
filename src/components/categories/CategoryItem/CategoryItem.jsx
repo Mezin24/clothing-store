@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import './categoryItem.scss'
 
 export const CategoryItem = ({item}) => {
@@ -7,15 +8,19 @@ export const CategoryItem = ({item}) => {
     title
   } = item
 
+  const styles = useMemo(() => (
+    {
+      backgroundImage: `url(${imageUrl})`,
+    }
+  ), [imageUrl])
+  
   return (
     <div
     key={id}
     className='category-container'
-    style={{
-      backgroundImage: `url(${imageUrl})`,
-    }}
+    
   >
-    <div className='background-image' />
+    <div className='background-image' style={styles}/>
     <div className='category-body-container'>
       <h2>{title}</h2>
       <p>Shop Now</p>
