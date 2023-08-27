@@ -1,17 +1,24 @@
 import { Button } from "components/UI/button/Button"
 import { CartItem } from "components/cartItem/CartItem"
 import { CartContext } from "context/cartContext/CartContext"
-import { useContext } from "react"
+import { useCallback, useContext } from "react"
+import { useNavigate } from "react-router-dom"
 import './cartDropdown.scss'
 
 export const CartDropdown = () => {
-  const {cart} = useContext(CartContext)
+  const {cart, setIsOpen} = useContext(CartContext)
+  const navigate = useNavigate()
+  const handleClick = useCallback(() => {
+    navigate('/checkout')
+    setIsOpen(false)
+  }, [navigate, setIsOpen])
+  
   return (
     <div className="cart-dropdown-container">
       <div className="cart-items">
         {cart.map(item => <CartItem key={item.id} cartItem={item} />)}
       </div>
-      <Button>Go to checkout</Button>
+      <Button onClick={handleClick }>Go to checkout</Button>
     </div>
   )
 }
