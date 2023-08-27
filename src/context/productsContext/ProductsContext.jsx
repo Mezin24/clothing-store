@@ -11,7 +11,5 @@ export const ProductsContextProvider = ({children}) => {
     products
   }), [products])
 
-
-
   return <ProductsContext.Provider value={value}>{children}</ProductsContext.Provider>
 }

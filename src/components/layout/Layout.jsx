@@ -1,17 +1,17 @@
 import { ReactComponent as Logo } from 'assets/logo/crown.svg'
 import { UserContext } from "context/userContext/UserContext"
-import { useCallback, useContext } from "react"
+import { memo, useCallback, useContext } from "react"
 import { Outlet } from "react-router"
 import { Link } from "react-router-dom"
 import { authSignOut } from "utils/firebase/config"
 import './layout.scss'
 import { CartIcon } from 'components/carticon/CartIcon'
 import { CartDropdown } from 'components/cartDropdown/CartDropdown'
-import { CartDropdownContext } from 'context/cartDropdownContext/CartDropdownContext'
+import { CartContext } from 'context/cartContext/CartContext'
 
-export const Layout = () => {
+export const Layout = memo(() => {
   const {user} = useContext(UserContext)
-  const {isOpen} = useContext(CartDropdownContext)
+  const {isOpen} = useContext(CartContext)
 
   const signOutHandler = useCallback(async() => {
     await authSignOut()
@@ -38,4 +38,4 @@ export const Layout = () => {
       <Outlet />
     </>
   )
-}
+})

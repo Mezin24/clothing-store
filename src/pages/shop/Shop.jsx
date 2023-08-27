@@ -1,9 +1,9 @@
 import { ProductCard } from "components/productCard/ProductCard"
 import { ProductsContext } from "context/productsContext/ProductsContext"
-import { useContext } from "react"
+import { memo, useContext } from "react"
 import './shop.scss'
 
-export const Shop = () => {
+export const Shop = memo(() => {
   const {products} = useContext(ProductsContext)
   return (
     <div className="products-container">
@@ -12,4 +12,4 @@ export const Shop = () => {
       ))}
     </div>
   )
-}
+})
