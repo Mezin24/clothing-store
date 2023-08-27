@@ -16,3 +16,17 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+button {
+  font: inherit;
+}
+
+.form-container {
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    margin-bottom: 10px;
+  }
+}

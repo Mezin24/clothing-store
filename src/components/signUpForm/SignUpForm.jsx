@@ -1,3 +1,4 @@
+import { Button } from "components/UI/button/Button";
 import { FormInput } from "components/UI/formInput/FormInput";
 import { useState } from "react";
 import {createUserDocWithEmailAndPassword, createUserDocumentFromAuthData} from 'utils/firebase/config'
@@ -39,11 +40,12 @@ export const SignUpForm = () => {
   }
   
   return (
-    <div>
-      <h1>Sign in with email and password</h1>
+    <div className="form-container">
+      <h2>Don't have an account?</h2>
+      <span>Sign up with your email and password</span>
       <form onSubmit={handleSubmit}>
         <FormInput 
-          label='Display name'
+          label='Display Name'
           type="text" 
           onChange={handleChange} 
           value={displayName} 
@@ -67,14 +69,14 @@ export const SignUpForm = () => {
           required
         />
           <FormInput 
-          label='Confirm password' 
+          label='Confirm Password' 
           type="password" 
           onChange={handleChange} 
           value={confirmPassword} 
           name="confirmPassword" 
           required
         />
-        <button type="submit">Sign Up</button>
+        <Button type="submit">Sign Up</Button>
       </form>
     </div>
   )
