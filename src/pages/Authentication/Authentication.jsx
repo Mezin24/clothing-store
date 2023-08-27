@@ -4,11 +4,10 @@ import './authentication.scss'
 
 
 export const Authentication = () => {
-
   return (
     <div className="auth-container">
-    <SignInForm />
-    <SignUpForm />
+      <SignInForm />
+      <SignUpForm />
     </div>
   )
 }

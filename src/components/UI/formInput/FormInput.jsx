@@ -1,6 +1,7 @@
+import { memo } from 'react'
 import './formInput.scss'
 
-export const FormInput = ({label, ...otherProps}) => {
+export const FormInput = memo(({label, ...otherProps}) => {
   return (
     <div className="group">
       <label className={`form-input-label ${otherProps?.value?.length ? 'shrink' : ''}`}>
@@ -9,4 +10,4 @@ export const FormInput = ({label, ...otherProps}) => {
       <input className="form-input" {...otherProps} />
     </div>
   )
-}
+})

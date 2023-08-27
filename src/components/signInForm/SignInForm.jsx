@@ -1,37 +1,38 @@
 import { BUTTON_THEME, Button } from "components/UI/button/Button";
 import { FormInput } from "components/UI/formInput/FormInput";
-import { useState } from "react";
+import { UserContext } from "context/userContext/UserContext";
+import { memo, useCallback, useContext, useState } from "react";
 import {
-  signInWithGooglePopup, 
-  createUserDocumentFromAuthData, 
-  signInUserWithEmailAndPassword
-} from 'utils/firebase/config'
-import './signInForm.scss'
+  createUserDocumentFromAuthData,
+  signInUserWithEmailAndPassword,
+  signInWithGooglePopup
+} from 'utils/firebase/config';
+import './signInForm.scss';
 
 const defaultValue = {
   email: '',
   password: '',
 }
 
-export const SignInForm = () => {
+export const SignInForm = memo(() => {
   const [formFields, setFormFields] = useState(defaultValue);
   const { email, password, } = formFields
-  const signInWithGoogle = async () => {
-    const {user} = await signInWithGooglePopup()
-    createUserDocumentFromAuthData(user)
-  }
+
+  const signInWithGoogle = useCallback(async () => {
+    await signInWithGooglePopup()
+  }, [])
+
   const handleChange = (e) => {
     const {name, value} = e.target
     setFormFields(prev => ({...prev, [name]: value}))
   }
 
-  const handleSubmit = async(e )=> {
+  const handleSubmit = useCallback(async(e )=> {
     e.preventDefault()
     if ( !email || !password) return 
     
     try {
-      const {user} = await signInUserWithEmailAndPassword(email, password)
-      console.log(user)
+      await signInUserWithEmailAndPassword(email, password)
     } catch (error) {
       switch (error.code) {
         case 'auth/wrong-password':
@@ -48,7 +49,7 @@ export const SignInForm = () => {
           break;
       }
   }
-}
+}, [email, password])
   
   return (
     <div className="form-container">
@@ -84,4 +85,4 @@ export const SignInForm = () => {
       </form>
     </div>
   )
-}
+})

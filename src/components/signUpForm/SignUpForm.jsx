@@ -1,7 +1,8 @@
 import { Button } from "components/UI/button/Button";
 import { FormInput } from "components/UI/formInput/FormInput";
-import { useState } from "react";
-import {createUserDocWithEmailAndPassword, createUserDocumentFromAuthData} from 'utils/firebase/config'
+import { UserContext } from "context/userContext/UserContext";
+import { memo, useCallback, useContext, useState } from "react";
+import { createUserDocWithEmailAndPassword, createUserDocumentFromAuthData } from 'utils/firebase/config';
 
 const defaultValue = {
   displayName: '',
@@ -10,7 +11,7 @@ const defaultValue = {
   confirmPassword: '',
 }
 
-export const SignUpForm = () => {
+export const SignUpForm = memo(() => {
   const [formFields, setFormFields] = useState(defaultValue);
   const {displayName, email, password, confirmPassword} = formFields
   const handleChange = (e) => {
@@ -18,7 +19,7 @@ export const SignUpForm = () => {
     setFormFields(prev => ({...prev, [name]: value}))
   }
 
-  const handleSubmit = async(e )=> {
+  const handleSubmit = useCallback(async(e )=> {
     e.preventDefault()
     if (!displayName || !email || !password) return 
 
@@ -37,7 +38,7 @@ export const SignUpForm = () => {
       }
       console.log(error)
     }
-  }
+  }, [confirmPassword, displayName, email, password])
   
   return (
     <div className="form-container">
@@ -80,4 +81,4 @@ export const SignUpForm = () => {
       </form>
     </div>
   )
-}
+})
