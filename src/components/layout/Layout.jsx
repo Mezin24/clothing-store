@@ -5,10 +5,13 @@ import { Outlet } from "react-router"
 import { Link } from "react-router-dom"
 import { authSignOut } from "utils/firebase/config"
 import './layout.scss'
+import { CartIcon } from 'components/carticon/CartIcon'
+import { CartDropdown } from 'components/cartDropdown/CartDropdown'
+import { CartDropdownContext } from 'context/cartDropdownContext/CartDropdownContext'
 
 export const Layout = () => {
   const {user} = useContext(UserContext)
-  console.log(user)
+  const {isOpen} = useContext(CartDropdownContext)
 
   const signOutHandler = useCallback(async() => {
     await authSignOut()
@@ -21,7 +24,6 @@ export const Layout = () => {
           <Logo/>
         </Link>
         <div className="nav-links-container">
-          <Link to='/' className="nav-link">Home</Link>
           <Link to='/shop' className="nav-link">Shop</Link>
           {user ? 
             <span className="nav-link" onClick={signOutHandler}>Sign Out</span> 
@@ -29,7 +31,9 @@ export const Layout = () => {
               <Link to='/auth' className="nav-link">Sign In</Link>
             )
           }
+          <CartIcon />
         </div>
+        {isOpen && <CartDropdown/>}
       </header>
       <Outlet />
     </>
