@@ -31,3 +31,14 @@ button {
     margin-bottom: 10px;
   }
 }
+
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 50px 10px;
+  margin-bottom: 30px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}

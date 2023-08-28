@@ -2,15 +2,15 @@ import { createContext, useMemo, useState, useEffect } from "react";
 // import { addCollectionAndDocuments } from "utils/firebase/config";
 import { getCategoriesAndDocuments } from "utils/firebase/config";
 
-export const ProductsContext = createContext({
-  products: []
+export const CategoriesContext = createContext({
+  categories: {}
 }) 
 
-export const ProductsContextProvider = ({children}) => {
-  const [products, setProducts] = useState([]);
+export const CategoriesContextProvider = ({children}) => {
+  const [categories, setCategories] = useState({});
 
  /*
- ADD PRODUCTS FROM JS FILE TO FIRESTORE
+ ADD Categories FROM JS FILE TO FIRESTORE
   useEffect(() => {
     addCollectionAndDocuments('categories', SHOP_DATA)
   }, []);
@@ -19,15 +19,15 @@ export const ProductsContextProvider = ({children}) => {
   useEffect(() => {
     const getCategoriesMap = async () => {
       const categoryMap = await getCategoriesAndDocuments('categories')
-      console.log(categoryMap)
+      setCategories(categoryMap)
     }
 
     getCategoriesMap()
   }, []);
 
   const value = useMemo(() => ({
-    products
-  }), [products])
+    categories
+  }), [categories])
 
-  return <ProductsContext.Provider value={value}>{children}</ProductsContext.Provider>
+  return <CategoriesContext.Provider value={value}>{children}</CategoriesContext.Provider>
 }

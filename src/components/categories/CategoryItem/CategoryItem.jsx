@@ -1,12 +1,21 @@
-import { useMemo } from 'react'
+import { useMemo, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './categoryItem.scss'
 
 export const CategoryItem = ({item}) => {
   const {
     id,
     imageUrl,
-    title
+    title,
+    route
   } = item
+
+  const navigate = useNavigate()
+
+  const navigateHandler = useCallback((route) => {
+    navigate(route)
+  }, [navigate])
+  
 
   const styles = useMemo(() => (
     {
@@ -20,7 +29,7 @@ export const CategoryItem = ({item}) => {
     className='category-container'
     
   >
-    <div className='background-image' style={styles}/>
+    <div className='background-image' style={styles} onClick={() => navigateHandler(route)}/>
     <div className='category-body-container'>
       <h2>{title}</h2>
       <p>Shop Now</p>

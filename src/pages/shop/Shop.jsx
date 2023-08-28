@@ -1,15 +1,28 @@
 import { ProductCard } from "components/productCard/ProductCard"
-import { ProductsContext } from "context/productsContext/ProductsContext"
+import { CategoriesContext } from "context/categoriesContext/CategoriesContext"
 import { memo, useContext } from "react"
-import './shop.scss'
+import { Link } from "react-router-dom"
 
 export const Shop = memo(() => {
-  const {products} = useContext(ProductsContext)
+  const {categories} = useContext(CategoriesContext)
   return (
-    <div className="products-container">
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product}/>
+    <>
+      {Object.entries(categories).map(([title, products]) => (
+        <div key={title}>
+          <h2>
+            <Link to={`${title}`}>
+                {title.toUpperCase()}
+            </Link>
+          </h2>
+          <div className="products-container">
+            {[...products]
+              .splice(0, 4)
+              .map((product) => (
+              <ProductCard key={product.id} product={product}/>
+            ))}
+          </div>
+        </div>
       ))}
-    </div>
+    </>
   )
 })
