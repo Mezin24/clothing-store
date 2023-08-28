@@ -24,12 +24,12 @@ export const CategoryItem = ({item}) => {
   ), [imageUrl])
   
   return (
-    <div
+  <div
     key={id}
     className='category-container'
-    
+    onClick={() => navigateHandler(route)}
   >
-    <div className='background-image' style={styles} onClick={() => navigateHandler(route)}/>
+    <div className='background-image' style={styles} />
     <div className='category-body-container'>
       <h2>{title}</h2>
       <p>Shop Now</p>
