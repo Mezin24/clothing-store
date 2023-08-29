@@ -1,4 +1,5 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useEffect, useMemo, useReducer, useState } from "react";
+import { createAction } from "utils/reducer/reducer";
 
 const addCartItem = (cart, newItem) => {
   const existingCartItem = cart.find(
@@ -22,6 +23,8 @@ const decreaseCartItem = (cart, itemId) => {
     .filter(item => item.quantity > 0)
 }
 
+const calcItemsInCart = cart => cart.reduce((acc, cur) => acc + cur.quantity, 0)
+const calcTotalSum = cart => cart.reduce((acc, cur) => acc +( cur.quantity * cur.price), 0)
 
 export const CartContext = createContext({
   isOpen: false,
@@ -34,34 +37,72 @@ export const CartContext = createContext({
   deleteItem: (id) => {}
 }) 
 
+const CART_ACTIONS = {
+  SET_IS_OPEN: 'SET_IS_OPEN',
+  SET_CART_ITEMS: 'SET_CART_ITEMS', 
+}
+
+const INITIAL_STATE = {
+  isOpen: false,
+  cart: [],
+  totalSum: 0,
+  itemsInCart: 0
+}
+
+const cartReducer = (state, {type, payload}) => {
+  switch (type) {
+    case CART_ACTIONS.SET_IS_OPEN:
+      return {
+        ...state,
+        isOpen: payload
+      }
+    case CART_ACTIONS.SET_CART_ITEMS:
+      return {
+        ...state,
+        ...payload
+      }
+  
+    default:
+      throw Error(`Invalid action type: ${type}`)
+  }
+}
+
 export const CartProvider = ({children}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [cart, setCart] = useState([]);
-  const [itemsInCart, setItemsInCart] = useState(0);
-  const [totalSum, setTotalSum] = useState(0);
+  const [state, dispatch] = useReducer(cartReducer, INITIAL_STATE)
+  const {isOpen, cart, totalSum, itemsInCart} = state
 
-  useEffect(() => {
-    const cartItems = cart.reduce((acc, cur) => acc + cur.quantity, 0)
-    const total = cart.reduce((acc, cur) => acc + cur.quantity * cur.price, 0)
-    setItemsInCart(cartItems)
-    setTotalSum(total)
-  }, [cart]);
+  const updateCartReducer = useCallback((type, cart) => {
+    const itemsInCart = calcItemsInCart(cart)
+    const totalSum = calcTotalSum(cart)
+    dispatch(createAction(type, {
+      cart,
+      itemsInCart,
+      totalSum
+    }))
+  }, [])
 
+  const setIsOpen = useCallback((isOpen) => {
+    dispatch(createAction(CART_ACTIONS.SET_IS_OPEN, isOpen))
+  }, [])
+  
   const addItemToCart = useCallback((newCartItem) => {
-    setCart(addCartItem(cart, newCartItem))
-  }, [cart])
-
+    const newCart = addCartItem(cart, newCartItem)
+    updateCartReducer(CART_ACTIONS.SET_CART_ITEMS, newCart)
+  }, [cart, updateCartReducer])
+  
   const removeItemFromCart = useCallback((itemId) => {
-    setCart(decreaseCartItem(cart, itemId))
-  }, [cart])
+    const newCart = decreaseCartItem(cart, itemId)
+    updateCartReducer(CART_ACTIONS.SET_CART_ITEMS, newCart)
+  }, [cart, updateCartReducer])
 
   const deleteItem = useCallback((id) => {
-    setCart(prev => prev.filter(item => item.id !== id))
-  }, [])
+    const newCart = cart.filter(item => item.id !== id)
+    updateCartReducer(CART_ACTIONS.SET_CART_ITEMS, newCart)
+  }, [cart, updateCartReducer])
   
   const value = useMemo(() => ({
     isOpen, setIsOpen, cart, addItemToCart, itemsInCart, totalSum, deleteItem, removeItemFromCart
-  }), [addItemToCart, cart, deleteItem, isOpen, itemsInCart, removeItemFromCart, totalSum])
+  }), [addItemToCart, cart, deleteItem, isOpen, itemsInCart, removeItemFromCart, setIsOpen, totalSum])
 
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
