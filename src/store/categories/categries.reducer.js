@@ -1,7 +1,7 @@
 import { CATEGORIES_ACTIONS } from './categories.actions';
 
 const INITIAL_STATE = {
-  categoriesMap: {},
+  categoriesArray: [],
 };
 
 export const categoriesReducer = (state = INITIAL_STATE, action) => {
@@ -11,7 +11,7 @@ export const categoriesReducer = (state = INITIAL_STATE, action) => {
     case CATEGORIES_ACTIONS.SET_CATEGORIES:
       return {
         ...state,
-        categoriesMap: payload,
+        categoriesArray: payload,
       };
 
     default:

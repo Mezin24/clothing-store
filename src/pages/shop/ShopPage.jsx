@@ -9,8 +9,8 @@ export const ShopPage = () => {
 
   useEffect(() => {
     const getCategoriesMap = async () => {
-      const categoryMap = await getCategoriesAndDocuments('categories')
-      dispatch(setCategoriesAction(categoryMap))
+      const categoryArray = await getCategoriesAndDocuments('categories')
+      dispatch(setCategoriesAction(categoryArray))
     }
 
     getCategoriesMap()
