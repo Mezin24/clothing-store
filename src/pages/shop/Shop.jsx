@@ -1,13 +1,17 @@
 import { ProductCard } from "components/productCard/ProductCard"
-import { CategoriesContext } from "context/categoriesContext/CategoriesContext"
-import { memo, useContext } from "react"
+import { memo } from "react"
+import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
+import { getCategoriesMap } from "store/categories/categories.selectors"
 
 export const Shop = memo(() => {
-  const {categories} = useContext(CategoriesContext)
+  const categoriesMap = useSelector(getCategoriesMap)
+
+  if (!categoriesMap) return null
+
   return (
     <>
-      {Object.entries(categories).map(([title, products]) => (
+      {Object.entries(categoriesMap).map(([title, products]) => (
         <div key={title}>
           <h2>
             <Link to={`${title}`}>

@@ -9,11 +9,11 @@ import Category from 'pages/Category/Category';
 import { authObserver, createUserDocumentFromAuthData } from 'utils/firebase/config';
 import { useDispatch } from 'react-redux';
 import { setUserAction } from 'store/user/user.types';
+import { ShopPage } from 'pages/shop/ShopPage';
 
 
 const App = () => {
   const dispatch = useDispatch()
-
   useEffect(() => {
     const unsubscribe = authObserver(user => {
       if (user) {
@@ -30,7 +30,7 @@ const App = () => {
     <Routes>
       <Route path='/' element={<Layout />}>
         <Route index element={<HomePage />} />
-        <Route path='shop'>
+        <Route path='shop' element={<ShopPage/>}>
           <Route index element={<Shop />}/>
           <Route path=':category' element={<Category/>} />
         </Route>
