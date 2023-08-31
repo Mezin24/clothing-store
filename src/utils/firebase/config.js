@@ -100,7 +100,5 @@ export const getCategoriesAndDocuments = async (docName) => {
     docSnapshot.data()
   );
 
-  console.log(categoryArray);
-
   return categoryArray;
 };
