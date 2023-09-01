@@ -11,3 +11,8 @@ export const getCategoriesMap = createSelector(
       return acc;
     }, {})
 );
+
+export const getCategoriesIsLoading = createSelector(
+  getCategoriesSlice,
+  (categoriesSlice) => categoriesSlice.isLoading
+);

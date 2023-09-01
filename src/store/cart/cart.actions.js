@@ -28,7 +28,6 @@ const decreaseCartItem = (cart, itemId) => {
 
 export const addItemToCart = (cart, newCartItem) => {
   const newCart = addCartItem(cart, newCartItem);
-  console.log(newCart);
   return createAction(CART_ACTIONS.SET_CART_ITEMS, newCart);
 };
 
