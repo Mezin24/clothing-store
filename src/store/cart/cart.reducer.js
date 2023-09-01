@@ -1,10 +1,8 @@
-import { CART_ACTIONS } from './cart.actions';
+import { CART_ACTIONS } from './cart.types';
 
 const INITIAL_STATE = {
   isOpen: false,
   cart: [],
-  totalSum: 0,
-  itemsInCart: 0,
 };
 
 export const cartReducer = (state = INITIAL_STATE, { type, payload }) => {
@@ -17,7 +15,7 @@ export const cartReducer = (state = INITIAL_STATE, { type, payload }) => {
     case CART_ACTIONS.SET_CART_ITEMS:
       return {
         ...state,
-        ...payload,
+        cart: payload,
       };
 
     default:

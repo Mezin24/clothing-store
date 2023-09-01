@@ -1,4 +1,3 @@
-import { CartProvider } from 'context/cartContext/CartContext';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -13,9 +12,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <CartProvider>
-          <App />
-        </CartProvider>
+        <App />
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

@@ -1,22 +1,25 @@
-import { useCallback, useContext } from 'react'
+import { useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { addItemToCart, deleteItem, removeItemFromCart } from 'store/cart/cart.actions'
 import './checkoutItem.scss'
-import { CartContext } from 'context/cartContext/CartContext'
+import { getCartItems } from 'store/cart/cart.selectors'
 
 export const CheckoutItem = ({product}) => {
   const {name, imageUrl, price, quantity, id} = product
-  const {deleteItem, addItemToCart, removeItemFromCart} = useContext(CartContext)
+  const dispatch = useDispatch()
+  const cart = useSelector(getCartItems)
 
   const deleteItemHandler = useCallback(() => {
-    deleteItem(id)
-  }, [deleteItem, id])
+    dispatch(deleteItem(cart, id))
+  }, [dispatch, id, cart])
 
   const addItemHandler = useCallback(() => {
-    addItemToCart(product)
-  }, [addItemToCart, product])
+    dispatch(addItemToCart(cart, product))
+  }, [dispatch, product, cart])
 
   const removeItemHandler = useCallback(() => {
-    removeItemFromCart(id)
-  }, [removeItemFromCart, id])
+    dispatch(removeItemFromCart(cart, id))
+  }, [dispatch, id, cart])
   
   return (
     <div className="checkout-item-container">

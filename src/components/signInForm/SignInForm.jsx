@@ -1,9 +1,7 @@
 import { BUTTON_THEME, Button } from "components/UI/button/Button";
 import { FormInput } from "components/UI/formInput/FormInput";
-import { UserContext } from "context/userContext/UserContext";
-import { memo, useCallback, useContext, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import {
-  createUserDocumentFromAuthData,
   signInUserWithEmailAndPassword,
   signInWithGooglePopup
 } from 'utils/firebase/config';

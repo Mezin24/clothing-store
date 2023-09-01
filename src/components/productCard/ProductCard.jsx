@@ -1,13 +1,17 @@
 import { BUTTON_THEME, Button } from 'components/UI/button/Button'
-import { CartContext } from 'context/cartContext/CartContext'
-import { memo, useContext } from 'react'
+import { memo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { addItemToCart } from 'store/cart/cart.actions'
+import { getCartItems } from 'store/cart/cart.selectors'
 import './productCard.scss'
 
 export const ProductCard = memo(({product}) => {
   const {name, imageUrl, price} = product
-  const {addItemToCart} = useContext(CartContext)
+  const dispatch = useDispatch()
+  const cart = useSelector(getCartItems)
+
   const addHandler = () => {
-    addItemToCart(product)
+    dispatch(addItemToCart(cart, product))
   }
   
   return (
